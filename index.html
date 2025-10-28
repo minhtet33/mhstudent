@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=1024, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0"
+    />
+    <title>Easy Student Card / Created by MH Min Htet</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+
+  <body>
+    <!-- ✅ Suggestion Dialog -->
+    <div id="suggestionDialog">
+      <span id="closeDialog">❌</span>
+      <h3>Suggestion</h3>
+      <p>Write the name as first, middle, and last. Reuse the email and birthday on the SheerID page.</p>
+    </div>
+
+    <div class="page" id="receipt">
+      <div class="header">
+        <div class="label" style="font-size:20px; font-weight:bold;">School of Open Learning</div>
+        <div class="value" style="border:none; font-weight:600; margin-top:3px; font-size:20px;" contenteditable="true">
+          Enter the school name of the selected country.
+        </div>
+        <div style="margin-top:4px; font-size:14px;">Delhi-110007</div>
+        <h4 style="margin-top:8px;">Fee Receipt</h4>
+      </div>
+
+      <div class="info-container">
+        <div class="col">
+          <div class="row"><div class="label">Barcode No :</div><div class="value" contenteditable="true">565823</div></div>
+          <div class="row"><div class="label">Course :</div><div class="value" contenteditable="true">B.Com. - I</div></div>
+          <div class="row"><div class="label">Name :</div><div class="value" id="studentName" contenteditable="true">MH Min Htet</div></div>
+          <div class="row"><div class="label">Father's Name :</div><div class="value" id="fatherName" contenteditable="false">MH Min Htet</div></div>
+          <div class="row"><div class="label">Mother's Name :</div><div class="value" contenteditable="true">Daw That Mon Myint</div></div>
+          <div class="row"><div class="label">Mailing Address :</div><div class="value" contenteditable="true">A 25, Rose Road No5, DELHI - 110027</div></div>
+          <div class="row"><div class="label">Email Id :</div><div class="value" id="emailTop" contenteditable="true">FirstName25-7-02-048878@sol.du.ac.in</div></div>
+        </div>
+
+        <div class="col">
+          <div class="row"><div class="label">Medium:</div><div class="value" style="border:none;" contenteditable="true">English</div></div>
+          <div class="row"><div class="label">Sex:</div><div class="value" style="border:none;" contenteditable="true">Male</div></div>
+        </div>
+
+        <div class="col">
+          <div class="row"><div class="label">Receipt No :</div><div class="value" contenteditable="true">25-07-876823</div></div>
+          <div class="row"><div class="label">User :</div><div class="value" contenteditable="true">200982</div></div>
+          <div class="row"><div class="label">Date :</div><div class="value" contenteditable="true">25/07/2025</div></div>
+          <div class="row"><div class="label">SOL Roll No :</div><div class="value" contenteditable="true">25-7-02-048878</div></div>
+          <div class="row"><div class="label">Exam Centre :</div><div class="value" contenteditable="true">DELHI (WEST Zone)</div></div>
+          <div class="row"><div class="label">Date of Birth :</div><div class="value" contenteditable="true">01-Jan-2004</div></div>
+          <div class="row"><div class="label">Phone No :</div><div class="value" contenteditable="true">9878287675</div></div>
+        </div>
+      </div>
+
+      <div class="section-title">Subject Offered:</div>
+      <div style="font-size: 12.5px; line-height: 1.5; margin-top: 4px;">
+        BUSINESS ORGANISATION AND MANAGEMENT (A101);
+        FINANCIAL ACCOUNTING (A102);
+        BUSINESS AND INDUSTRIAL LAWS (A103);
+        ECONOMICS PAPER 1 PRINCIPLE OF ECONOMICS (A104);
+        HINDI-B (A108)
+      </div>
+
+      <div class="section-title">Payment Details</div>
+      <div class="payment-row">
+        <div class="payment-item"><div class="label">Pay Mode</div><div class="value">DD</div></div>
+        <div class="payment-item"><div class="label">Ref. No</div><div class="value">345266734</div></div>
+        <div class="payment-item"><div class="label">Date of Issue</div><div class="value">24/07/2025</div></div>
+        <div class="payment-item"><div class="label">Bank</div><div class="value">SBI-DD-DU</div></div>
+        <div class="amount-box"><div class="label">Amount</div><div class="value">3465</div></div>
+      </div>
+
+      <div style="text-align:center; font-size:12px; margin-top:10px; font-style:italic;">
+        (Rupees Three Thousand Four Hundred Sixty-Five And Zero Paise Only)
+      </div>
+
+      <div class="notes">
+        <b>Note 1:</b> Admission is provisional subject to verification of original documents by the office.
+        <br><br>
+        <b>Note 2:</b> Students opting for North Campus can collect study material from <b>SOL-North</b>
+        and those opting for South can collect it only from <b>SOL-South Moti Bagh</b>.
+      </div>
+
+      <div class="footer">
+        Please note that in future you will get all information through Mail:
+        <b id="emailBottom" contenteditable="false">FirstName25-7-02-048878@sol.du.ac.in</b>
+        and Phone No <b>9878287675</b>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="downloadIMG">🖼️ Download Image</button>
+    </div>
+
+    <div class="credit">
+      Easy Student Card / Created by
+      <a href="https://www.facebook.com/mhminhtetmh" target="_blank">MH Min Htet</a>
+    </div>
+
+    <script>
+      // ✅ Dialog Show
+      window.addEventListener("load", () => {
+        const dialog = document.getElementById("suggestionDialog");
+        const close = document.getElementById("closeDialog");
+        dialog.style.display = "block";
+        close.onclick = () => (dialog.style.display = "none");
+      });
+
+      // ✅ Auto Update Father’s Name
+      const studentName = document.getElementById("studentName");
+      const fatherName = document.getElementById("fatherName");
+      studentName.addEventListener("input", () => {
+        fatherName.innerText = studentName.innerText.trim();
+      });
+
+      // ✅ Auto Update Email
+      const emailTop = document.getElementById("emailTop");
+      const emailBottom = document.getElementById("emailBottom");
+      emailTop.addEventListener("input", () => {
+        emailBottom.innerText = emailTop.innerText.trim();
+      });
+
+      // ✅ File name (Name + Date)
+      function getFileName() {
+        const name = document.getElementById("studentName").innerText.trim() || "Fee_Receipt";
+        const date = new Date();
+        const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1)
+          .toString()
+          .padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}`;
+        return `${name.replace(/\s+/g, "_")}_${formattedDate}`;
+      }
+
+      // ✅ Capture Options
+      const captureOptions = {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#000000",
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
+      };
+
+      // ✅ Hide dialog & buttons before capture
+      function hideUI() {
+        const dialog = document.getElementById("suggestionDialog");
+        const buttons = document.querySelector(".buttons");
+        dialog.style.display = "none";
+        buttons.style.display = "none";
+      }
+
+      // ✅ Restore UI after capture
+      function showUI() {
+        const buttons = document.querySelector(".buttons");
+        buttons.style.display = "flex";
+      }
+
+      // 🖼️ Download Image (Body only)
+      document.getElementById("downloadIMG").addEventListener("click", async () => {
+        hideUI();
+        const fileName = getFileName() + ".png";
+        const canvas = await html2canvas(document.body, captureOptions);
+        const link = document.createElement("a");
+        link.download = fileName;
+        link.href = canvas.toDataURL("image/png", 1.0);
+        link.click();
+        showUI();
+      });
+    </script>
+  </body>
+          </html>
